@@ -1,10 +1,11 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { supabase } from '@/lib/supabase';
 
-export default function VerifyEmail() {
+// Create a wrapper component that uses the search params
+function VerifyEmailContent() {
   const [verifying, setVerifying] = useState(true);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
@@ -89,5 +90,24 @@ export default function VerifyEmail() {
         )}
       </div>
     </div>
+  );
+}
+
+// Main component that uses Suspense
+export default function VerifyEmail() {
+  return (
+    <Suspense fallback={
+      <div className="bg-gradient-to-b from-midtrans-blue to-blue-900 flex min-h-screen items-center justify-center">
+        <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-md">
+          <h1 className="text-2xl font-bold text-center">Email Verification</h1>
+          <div className="text-center">
+            <div className="inline-block animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500 mb-4"></div>
+            <p>Loading verification...</p>
+          </div>
+        </div>
+      </div>
+    }>
+      <VerifyEmailContent />
+    </Suspense>
   );
 } 
