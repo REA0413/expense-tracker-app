@@ -20,6 +20,14 @@ export const EUROPEAN_ETFS = [
   'SPY', 'IWM', 'QQQ', 'VGK', 'FEZ'
 ];
 
+// Replace any with proper types
+type StockData = {
+  symbol: string;
+  price: number;
+  change: number;
+  percentChange: number;
+};
+
 // Format stock data from Alpha Vantage
 function formatStockQuote(symbol: string, data: any): any {
   if (!data || !data['Global Quote']) return null;
@@ -145,4 +153,12 @@ export async function fetchEuropeanETFs() {
   }
   
   return results;
-} 
+}
+
+export const getStockData = async (symbols: string[]): Promise<Record<string, StockData>> => {
+  // Implementation placeholder
+  const result: Record<string, StockData> = {};
+  
+  // Return empty result for now
+  return result;
+}; 

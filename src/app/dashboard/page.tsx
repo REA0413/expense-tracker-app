@@ -12,7 +12,9 @@ import FinancialMarkets from '@/components/FinancialMarkets';
 import Sidebar from '@/components/Sidebar';
 import Header from '@/components/Header';
 import TransactionStatus from '@/components/TransactionStatus';
-import { Calendar, Wallet, TrendingUp, TrendingDown, Plus, DollarSign, CreditCard, RefreshCw, PieChart as PieChartIcon } from 'lucide-react';
+import { 
+  Calendar, Wallet, DollarSign, CreditCard, RefreshCw, PieChart as PieChartIcon 
+} from 'lucide-react';
 import ReceiptScanner from '@/components/ReceiptScanner';
 import TopBar from '@/components/TopBar';
 import { formatCurrency } from '@/lib/utils';
@@ -37,8 +39,6 @@ export default function Dashboard() {
   const router = useRouter();
   const [isModelLoaded, setIsModelLoaded] = useState(false);
   const [feedbackGiven, setFeedbackGiven] = useState<Record<string, boolean>>({});
-  const [isScanning, setIsScanning] = useState(false);
-  const [scanResults, setScanResults] = useState<string>('');
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [plaidLinked, setPlaidLinked] = useState(false);
   const [plaidInstitution, setPlaidInstitution] = useState('');
@@ -222,7 +222,6 @@ export default function Dashboard() {
     if (!e.target.files || e.target.files.length === 0) return;
     
     const file = e.target.files[0];
-    setIsScanning(true);
     
     try {
       // Use Tesseract.js to recognize text in the image
@@ -233,7 +232,6 @@ export default function Dashboard() {
       );
       
       const text = result.data.text;
-      setScanResults(text);
       
       // Try to extract information from the receipt
       const amountMatch = text.match(/\$?(\d+\.\d{2})/); // Look for dollar amounts
@@ -262,10 +260,6 @@ export default function Dashboard() {
       }
     } catch (error) {
       console.error('Error scanning receipt:', error);
-    } finally {
-      setIsScanning(false);
-      // Reset file input
-      if (fileInputRef.current) fileInputRef.current.value = '';
     }
   };
 
@@ -304,14 +298,13 @@ export default function Dashboard() {
   };
 
   // Determine transaction status (this would be simplified - in a real app you'd have proper status fields)
-  const getTransactionStatus = (date: string) => {
+  const getTransactionStatus = (date: string): 'completed' | 'pending' | 'failed' => {
     const transactionDate = new Date(date);
     const now = new Date();
-    const daysDiff = Math.floor((now.getTime() - transactionDate.getTime()) / (1000 * 3600 * 24));
+    const daysDiff = (now.getTime() - transactionDate.getTime()) / (1000 * 60 * 60 * 24);
     
     if (daysDiff < 1) return 'pending';
-    if (daysDiff < 3) return 'settled';
-    return 'settled'; // Default all older transactions to settled
+    return 'completed'; // Change 'settled' to 'completed'
   };
 
   if (loading) {

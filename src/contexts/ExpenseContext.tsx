@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useState, useEffect, ReactNode } from 'react';
+import { createContext, useState, useEffect, ReactNode, useCallback } from 'react';
 import { useContext } from 'react';
 import { AuthContext } from '@/contexts/AuthContext';
 
@@ -32,7 +32,7 @@ export const ExpenseProvider = ({ children }: { children: ReactNode }) => {
   const [error, setError] = useState<string | null>(null);
   const { user } = useContext(AuthContext);
 
-  const fetchExpenses = async () => {
+  const fetchExpenses = useCallback(async () => {
     // Only fetch if user is authenticated
     if (!user) {
       setExpenses([]);
@@ -58,12 +58,12 @@ export const ExpenseProvider = ({ children }: { children: ReactNode }) => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [user]);
 
   // Initial fetch
   useEffect(() => {
     fetchExpenses();
-  }, []);
+  }, [fetchExpenses]);
 
   return (
     <ExpenseContext.Provider 

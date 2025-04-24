@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect, useContext } from 'react';
 import { useRouter } from 'next/navigation';
-import { MessageSquare, X, Send, Upload, ArrowUpRight } from 'lucide-react';
+import { MessageSquare, X, Send, Upload } from 'lucide-react';
 import { ExpenseContext } from '@/contexts/ExpenseContext';
 import { formatCurrency } from '@/lib/utils';
 
@@ -41,7 +41,6 @@ export default function ChatBot() {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
-  const [uploadedFile, setUploadedFile] = useState<File | null>(null);
 
   // Auto-scroll to bottom when messages change
   useEffect(() => {
@@ -394,7 +393,6 @@ Would you like to see all your transactions?`;
     if (!e.target.files || e.target.files.length === 0) return;
     
     const file = e.target.files[0];
-    setUploadedFile(file);
     addBotMessage(`Processing your file: ${file.name}...`);
     
     // Store in session storage to share with invoice page
