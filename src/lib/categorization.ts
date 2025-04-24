@@ -33,9 +33,9 @@ const TRAINING_DATA = [
 
 // Create a bag of words model
 let model: tf.Sequential | null = null;
-let wordIndex: Map<string, number> = new Map();
-let categoryIndex: Map<string, number> = new Map();
-let reverseCategoryIndex: Map<number, string> = new Map();
+const wordIndex: Map<string, number> = new Map();
+const categoryIndex: Map<string, number> = new Map();
+const reverseCategoryIndex: Map<number, string> = new Map();
 
 // Create the vocabulary from training data
 function createVocabulary() {
