@@ -1,0 +1,29 @@
+my-expense-tracker/
+├── src/
+│   ├── app/
+│   │   ├── api/
+│   │   │   ├── auth/
+│   │   │   │   ├── login/
+│   │   │   │   │   └── route.ts
+│   │   │   │   └── signup/
+│   │   │   │       └── route.ts
+│   │   │   └── transactions/
+│   │   │       ├── add/
+│   │   │       │   └── route.ts
+│   │   │       └── get/
+│   │   │           └── route.ts
+│   │   ├── (auth)/
+│   │   │   ├── login/
+│   │   │   │   └── page.tsx
+│   │   │   └── signup/
+│   │   │       └── page.tsx
+│   │   ├── dashboard/
+│   │   │   └── page.tsx
+│   │   ├── layout.tsx
+│   │   └── page.tsx
+│   ├── components/
+│   │   └── ui/
+│   ├── lib/
+│   │   └── supabase.ts
+│   └── types/
+└── public/ 
